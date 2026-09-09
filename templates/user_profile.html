@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ user["name"] }} - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav class="main-nav">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/matches">
+            Matches
+        </a>
+
+        <a href="/requests">
+            Requests
+        </a>
+
+        <a href="/profile">
+            My Profile
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="user-profile-page">
+
+
+    <!-- ==========================================
+         PROFILE HEADER
+    =========================================== -->
+
+    <section class="user-profile-header">
+
+        <div class="large-profile-avatar">
+            {{ user["name"][0]|upper }}
+        </div>
+
+
+        <div class="user-profile-main-info">
+
+            <h1>
+                {{ user["name"] }}
+            </h1>
+
+
+            <p class="user-location">
+                📍 {{ user["location"] or "Location not added" }}
+            </p>
+
+
+            <p class="user-bio">
+                {{ user["bio"] or "No bio added yet." }}
+            </p>
+
+
+            {% if review_count > 0 %}
+
+                <div class="user-rating">
+
+                    ⭐ {{ "%.1f"|format(average_rating) }} / 5
+
+                    <span>
+                        ({{ review_count }} reviews)
+                    </span>
+
+                </div>
+
+            {% else %}
+
+                <div class="user-rating">
+                    ⭐ New Member
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         STATISTICS
+    =========================================== -->
+
+    <section class="user-stat-grid">
+
+
+        <div class="user-stat-card">
+
+            <div class="user-stat-icon">
+                🎓
+            </div>
+
+            <div>
+
+                <span>
+                    Skills & Services
+                </span>
+
+                <strong>
+                    {{ offer_count }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="user-stat-card">
+
+            <div class="user-stat-icon">
+                📚
+            </div>
+
+            <div>
+
+                <span>
+                    Learning Needs
+                </span>
+
+                <strong>
+                    {{ need_count }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="user-stat-card">
+
+            <div class="user-stat-icon">
+                🤝
+            </div>
+
+            <div>
+
+                <span>
+                    Exchanges Completed
+                </span>
+
+                <strong>
+                    {{ completed_exchanges }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==========================================
+         WHAT USER CAN OFFER
+    =========================================== -->
+
+    <section class="public-profile-section">
+
+        <h2>
+            What {{ user["name"] }} Can Offer
+        </h2>
+
+        <p class="section-description">
+            Skills they can teach and services they can provide.
+        </p>
+
+
+        <div class="public-profile-grid">
+
+
+            <!-- TEACHING SKILLS -->
+
+            <div class="public-info-card">
+
+                <div class="public-card-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Skills They Can Teach
+                </h3>
+
+
+                {% if teach_skills %}
+
+                    <div class="tag-container">
+
+                        {% for skill in teach_skills %}
+
+                            <span class="skill-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No teaching skills listed.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- SERVICES -->
+
+            <div class="public-info-card">
+
+                <div class="public-card-icon">
+                    🛠️
+                </div>
+
+                <h3>
+                    Services They Can Provide
+                </h3>
+
+
+                {% if provide_services %}
+
+                    <div class="tag-container">
+
+                        {% for service in provide_services %}
+
+                            <span class="service-tag">
+                                {{ service }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No services listed.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         WHAT USER NEEDS
+    =========================================== -->
+
+    <section class="public-profile-section">
+
+        <h2>
+            What {{ user["name"] }} Needs
+        </h2>
+
+        <p class="section-description">
+            Skills they want to learn and services they need.
+        </p>
+
+
+        <div class="public-profile-grid">
+
+
+            <!-- LEARNING -->
+
+            <div class="public-info-card">
+
+                <div class="public-card-icon">
+                    📚
+                </div>
+
+                <h3>
+                    Skills They Want to Learn
+                </h3>
+
+
+                {% if learn_skills %}
+
+                    <div class="tag-container">
+
+                        {% for skill in learn_skills %}
+
+                            <span class="need-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No learning goals listed.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- SERVICES NEEDED -->
+
+            <div class="public-info-card">
+
+                <div class="public-card-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Services They Need
+                </h3>
+
+
+                {% if need_services %}
+
+                    <div class="tag-container">
+
+                        {% for service in need_services %}
+
+                            <span class="need-service-tag">
+                                {{ service }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No required services listed.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         RECENT REVIEWS
+    =========================================== -->
+
+    <section class="public-profile-section">
+
+        <h2>
+            Recent Reviews
+        </h2>
+
+
+        {% if reviews %}
+
+            <div class="reviews-list">
+
+                {% for review in reviews %}
+
+                    <div class="review-item">
+
+                        <div class="review-top">
+
+                            <strong>
+                                {{ review["reviewer_name"] }}
+                            </strong>
+
+                            <span>
+                                ⭐ {{ review["rating"] }}/5
+                            </span>
+
+                        </div>
+
+
+                        {% if review["comment"] %}
+
+                            <p>
+                                "{{ review["comment"] }}"
+                            </p>
+
+                        {% else %}
+
+                            <p>
+                                No written feedback.
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="public-info-card">
+
+                <p class="empty-text">
+                    No reviews yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- ==========================================
+         SEND REQUEST
+    =========================================== -->
+
+    <section class="profile-action-section">
+
+        <h2>
+            Interested in exchanging skills?
+        </h2>
+
+        <p>
+            Send an exchange request and start connecting.
+        </p>
+
+
+        <form
+            method="POST"
+            action="/send-request"
+        >
+
+            <input
+                type="hidden"
+                name="receiver_id"
+                value="{{ user['user_id'] }}"
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn public-request-btn"
+            >
+                Send Exchange Request
+            </button>
+
+        </form>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Skill Bridge | Connect. Exchange. Grow.
+    </p>
+
+</footer>
+
+</body>
+
+</html>

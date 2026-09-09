@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Your Exchange - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/matches">
+            Matches
+        </a>
+
+        <a href="/profile">
+            Profile
+        </a>
+
+        <a href="/requests">
+            Requests
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="exchange-container">
+
+    <div class="exchange-card">
+
+        <div class="success-icon">
+            🎉
+        </div>
+
+
+        <h1>
+            Your Skill Bridge Exchange
+        </h1>
+
+
+        <p class="exchange-subtitle">
+            Your exchange session details are shown below.
+        </p>
+
+
+        <div class="exchange-details">
+
+
+            <!-- DATE -->
+
+            <div class="detail-row">
+
+                <strong>
+                    Date
+                </strong>
+
+                <span>
+                    {{ session_data["date"] }}
+                </span>
+
+            </div>
+
+
+            <!-- TIME -->
+
+            <div class="detail-row">
+
+                <strong>
+                    Time
+                </strong>
+
+                <span>
+                    {{ session_data["time"] }}
+                </span>
+
+            </div>
+
+
+            <!-- MODE -->
+
+            <div class="detail-row">
+
+                <strong>
+                    Mode
+                </strong>
+
+                <span>
+
+                    {% if session_data["mode"] == "ONLINE" %}
+
+                        💻 Online
+
+                    {% else %}
+
+                        📍 In Person
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="detail-row">
+
+                <strong>
+                    Status
+                </strong>
+
+                <span>
+
+                    {% if session_data["status"] == "SCHEDULED" %}
+
+                        🟢 Scheduled
+
+                    {% else %}
+
+                        ✅ Completed
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- SCHEDULED -->
+        <!-- ================================================= -->
+
+        {% if session_data["status"] == "SCHEDULED" %}
+
+            <form
+                method="POST"
+                action="/complete-exchange"
+            >
+
+                <input
+                    type="hidden"
+                    name="session_id"
+                    value="{{ session_data['session_id'] }}"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="request_id"
+                    value="{{ session_data['request_id'] }}"
+                >
+
+
+                <button
+                    type="submit"
+                    class="primary-btn complete-btn"
+                >
+
+                    Mark Exchange Complete
+
+                </button>
+
+            </form>
+
+
+        <!-- ================================================= -->
+        <!-- COMPLETED -->
+        <!-- ================================================= -->
+
+        {% else %}
+
+            <div class="completed-message">
+
+                ✅ Exchange Completed Successfully!
+
+            </div>
+
+
+            <!-- RATE & REVIEW BUTTON -->
+
+            <a
+                href="{{ url_for(
+                    'review_exchange',
+                    session_id=session_data['session_id']
+                ) }}"
+            >
+
+                <button
+                    type="button"
+                    class="primary-btn review-exchange-btn"
+                >
+
+                    ⭐ Rate & Review
+
+                </button>
+
+            </a>
+
+
+            <br><br>
+
+
+            <!-- BACK TO DASHBOARD -->
+
+            <a href="/dashboard">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                >
+
+                    Back to Dashboard
+
+                </button>
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Exchange Requests - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/matches">
+            Matches
+        </a>
+
+        <a href="/profile">
+            Profile
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="matches-container">
+
+    <h1>Exchange Requests</h1>
+
+    <p>
+        Manage your skill and service exchange requests.
+    </p>
+
+
+    <!-- ========================= -->
+    <!-- INCOMING REQUESTS -->
+    <!-- ========================= -->
+
+    <h2>Incoming Requests</h2>
+
+    {% if incoming %}
+
+        <div class="matches-grid">
+
+            {% for req in incoming %}
+
+                <div class="match-user-card">
+
+                    <h2>
+                        {{ req.name }}
+                    </h2>
+
+                    <p>
+                        📍 {{ req.location }}
+                    </p>
+
+                    <p>
+                        {{ req.bio }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+
+                        {% if req.status == "PENDING" %}
+
+                            <span>
+                                PENDING
+                            </span>
+
+                        {% elif req.status == "ACCEPTED" %}
+
+                            <span>
+                                ACCEPTED ✅
+                            </span>
+
+                        {% elif req.status == "REJECTED" %}
+
+                            <span>
+                                REJECTED ❌
+                            </span>
+
+                        {% elif req.status == "COMPLETED" %}
+
+                            <span>
+                                COMPLETED ✅
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <!-- PENDING REQUEST -->
+
+                    {% if req.status == "PENDING" %}
+
+                        <div>
+
+                            <form method="POST"
+                                  action="/accept-request"
+                                  style="display:inline;">
+
+                                <input
+                                    type="hidden"
+                                    name="request_id"
+                                    value="{{ req.request_id }}"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="primary-btn">
+
+                                    Accept
+
+                                </button>
+
+                            </form>
+
+
+                            <form method="POST"
+                                  action="/reject-request"
+                                  style="display:inline;">
+
+                                <input
+                                    type="hidden"
+                                    name="request_id"
+                                    value="{{ req.request_id }}"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="secondary-btn">
+
+                                    Reject
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ACCEPTED REQUEST -->
+
+                    {% if req.status == "ACCEPTED" %}
+
+                        <div>
+
+                            <a href="/schedule/{{ req.request_id }}">
+
+                                <button
+                                    type="button"
+                                    class="primary-btn">
+
+                                    Schedule Exchange
+
+                                </button>
+
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- COMPLETED REQUEST -->
+
+                    {% if req.status == "COMPLETED" %}
+
+                        <div>
+
+                            <h3>
+                                🎉 Exchange Completed
+                            </h3>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-match">
+
+            <h3>
+                No incoming requests.
+            </h3>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- ========================= -->
+    <!-- SENT REQUESTS -->
+    <!-- ========================= -->
+
+    <h2 style="margin-top: 50px;">
+        Sent Requests
+    </h2>
+
+    {% if outgoing %}
+
+        <div class="matches-grid">
+
+            {% for req in outgoing %}
+
+                <div class="match-user-card">
+
+                    <h2>
+                        {{ req.name }}
+                    </h2>
+
+                    <p>
+
+                        <strong>Status:</strong>
+
+                        {% if req.status == "PENDING" %}
+
+                            PENDING
+
+                        {% elif req.status == "ACCEPTED" %}
+
+                            ACCEPTED ✅
+
+                        {% elif req.status == "REJECTED" %}
+
+                            REJECTED ❌
+
+                        {% elif req.status == "COMPLETED" %}
+
+                            COMPLETED ✅
+
+                        {% endif %}
+
+                    </p>
+
+
+                    {% if req.status == "ACCEPTED" %}
+
+                        <a href="/schedule/{{ req.request_id }}">
+
+                            <button
+                                type="button"
+                                class="primary-btn">
+
+                                Schedule Exchange
+
+                            </button>
+
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-match">
+
+            <p>
+                No sent requests.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</main>
+
+
+</body>
+
+</html>

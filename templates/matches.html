@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Recommended Matches - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav class="main-nav">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/profile">
+            Profile
+        </a>
+
+        <a href="/requests">
+            Requests
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="matches-container">
+
+    <h1>
+        Recommended Matches 🎯
+    </h1>
+
+    <p>
+        People whose skills and services are compatible with yours.
+    </p>
+
+
+    {% if matches %}
+
+        <div class="matches-grid">
+
+            {% for match in matches %}
+
+                <div class="match-user-card">
+
+                    <div class="match-score">
+                        {{ match.score }}% Match
+                    </div>
+
+
+                    <h2>
+                        {{ match.name }}
+                    </h2>
+
+
+                    <p>
+                        📍 {{ match.location }}
+                    </p>
+
+
+                    <p>
+                        {{ match.bio }}
+                    </p>
+
+
+                    <div class="match-type">
+                        🎯 {{ match.match_type }}
+                    </div>
+
+
+                    {% if match.needs_matched %}
+
+                        <div class="match-detail">
+
+                            <strong>
+                                They can provide:
+                            </strong>
+
+                            <div class="match-tags">
+
+                                {% for skill in match.needs_matched %}
+
+                                    <span>
+                                        {{ skill }}
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if match.offers_matched %}
+
+                        <div class="match-detail">
+
+                            <strong>
+                                They need what you offer:
+                            </strong>
+
+                            <div class="match-tags">
+
+                                {% for skill in match.offers_matched %}
+
+                                    <span>
+                                        {{ skill }}
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="match-actions">
+
+
+                        <a href="/user/{{ match.user_id }}">
+
+                            <button
+                                type="button"
+                                class="secondary-btn">
+
+                                View Profile
+
+                            </button>
+
+                        </a>
+
+
+                        {% if match.request_status == "PENDING" %}
+
+                            <button
+                                type="button"
+                                class="request-pending-btn"
+                                disabled>
+
+                                Request Pending
+
+                            </button>
+
+
+                        {% elif match.request_status == "ACCEPTED" %}
+
+                            <button
+                                type="button"
+                                class="request-accepted-btn"
+                                disabled>
+
+                                Request Accepted ✅
+
+                            </button>
+
+
+                        {% elif match.request_status == "REJECTED" %}
+
+                            <form
+                                method="POST"
+                                action="/send-request">
+
+                                <input
+                                    type="hidden"
+                                    name="receiver_id"
+                                    value="{{ match.user_id }}"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="primary-btn">
+
+                                    Send Request Again
+
+                                </button>
+
+                            </form>
+
+
+                        {% else %}
+
+                            <form
+                                method="POST"
+                                action="/send-request">
+
+                                <input
+                                    type="hidden"
+                                    name="receiver_id"
+                                    value="{{ match.user_id }}"
+                                >
+
+                                <button
+                                    type="submit"
+                                    class="primary-btn">
+
+                                    Send Request
+
+                                </button>
+
+                            </form>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="no-match">
+
+            <h2>
+                No matches found yet.
+            </h2>
+
+            <p>
+                Add more skills or services to improve your matches.
+            </p>
+
+            <br>
+
+            <a href="/profile">
+
+                <button class="primary-btn">
+                    Update Profile
+                </button>
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Skill Bridge | Connect. Exchange. Grow.
+    </p>
+
+</footer>
+
+</body>
+
+</html>

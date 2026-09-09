@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            Skill Bridge
+        </div>
+
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="register-section">
+
+            <div class="register-box">
+
+                <h1>Create Your Account</h1>
+
+                <p>
+                    Join Skill Bridge and start exchanging skills.
+                </p>
+
+
+                <form method="POST">
+
+                    <label>Name</label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+
+                    <label>Location</label>
+
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Enter your location"
+                    >
+
+
+                    <label>About You</label>
+
+                    <textarea
+                        name="bio"
+                        placeholder="Tell us something about yourself">
+                    </textarea>
+
+
+                    <button type="submit" class="primary-btn">
+                        Create Account
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

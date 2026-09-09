@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Schedule Exchange - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/matches">
+            Matches
+        </a>
+
+        <a href="/requests">
+            Requests
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="schedule-container">
+
+    <div class="schedule-card">
+
+        <h1>Schedule Your Exchange</h1>
+
+        <p class="schedule-description">
+            Choose a date, time and mode for your skill or service exchange.
+        </p>
+
+
+        <form method="POST">
+
+
+            <!-- DATE -->
+
+            <label for="date">
+                Exchange Date
+            </label>
+
+            <input
+                type="date"
+                id="date"
+                name="date"
+                required
+            >
+
+
+            <!-- TIME -->
+
+            <label for="time">
+                Exchange Time
+            </label>
+
+            <input
+                type="time"
+                id="time"
+                name="time"
+                required
+            >
+
+
+            <!-- MODE -->
+
+            <label for="mode">
+                Exchange Mode
+            </label>
+
+            <select
+                id="mode"
+                name="mode"
+                required
+            >
+
+                <option value="">
+                    Select mode
+                </option>
+
+                <option value="ONLINE">
+                    Online
+                </option>
+
+                <option value="IN_PERSON">
+                    In Person
+                </option>
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="primary-btn schedule-btn">
+
+                Schedule Exchange
+
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

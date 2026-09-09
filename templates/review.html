@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Rate Your Exchange - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/requests">
+            Requests
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="review-container">
+
+    <div class="review-card">
+
+        <div class="review-icon">
+            ⭐
+        </div>
+
+
+        <h1>
+            Rate Your Exchange
+        </h1>
+
+
+        <p class="review-subtitle">
+
+            How was your exchange with
+            <strong>{{ reviewee_name }}</strong>?
+
+        </p>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('review_exchange', session_id=exchange['session_id']) }}"
+        >
+
+            <label for="rating">
+                Rating
+            </label>
+
+
+            <select
+                id="rating"
+                name="rating"
+                required
+            >
+
+                <option value="">
+                    Select rating
+                </option>
+
+                <option value="5">
+                    ⭐⭐⭐⭐⭐ Excellent
+                </option>
+
+                <option value="4">
+                    ⭐⭐⭐⭐ Very Good
+                </option>
+
+                <option value="3">
+                    ⭐⭐⭐ Good
+                </option>
+
+                <option value="2">
+                    ⭐⭐ Needs Improvement
+                </option>
+
+                <option value="1">
+                    ⭐ Poor
+                </option>
+
+            </select>
+
+
+            <label for="comment">
+                Feedback
+            </label>
+
+
+            <textarea
+                id="comment"
+                name="comment"
+                rows="5"
+                placeholder="Share your experience..."
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="primary-btn review-btn"
+            >
+                Submit Review
+            </button>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

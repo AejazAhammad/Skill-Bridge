@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Skill Bridge</div>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">How It Works</a>
+            <a href="#">About</a>
+            <a href="/login">Login</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-text">
+
+                <h1>
+                    Share What You Know.
+                    <br>
+                    Learn What You Need.
+                </h1>
+
+                <p>
+                    Connect with people around you and exchange
+                    skills and services without barriers.
+                </p>
+
+                <div class="buttons">
+
+                    <a href="/register">
+                        <button class="primary-btn">
+                            Get Started
+                        </button>
+                    </a>
+
+                    <a href="#how-it-works">
+                        <button class="secondary-btn">
+                            How It Works
+                        </button>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-card">
+
+                <div class="match-card">
+
+                    <span class="match">97% Match</span>
+
+                    <h3>Python ↔ Graphic Design</h3>
+
+                    <p>
+                        You teach Python
+                    </p>
+
+                    <p>
+                        They teach Graphic Design
+                    </p>
+
+                    <button class="match-btn">
+                        Skill Match
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="how-it-works" class="how-section">
+
+            <h2>How Skill Bridge Works</h2>
+
+            <div class="steps">
+
+                <div class="step">
+                    <h3>1</h3>
+                    <h4>Create Your Profile</h4>
+                    <p>
+                        Tell the community what you can offer
+                        and what you want to learn.
+                    </p>
+                </div>
+
+
+                <div class="step">
+                    <h3>2</h3>
+                    <h4>Find Your Match</h4>
+                    <p>
+                        Our matching system finds people
+                        with compatible skills and services.
+                    </p>
+                </div>
+
+
+                <div class="step">
+                    <h3>3</h3>
+                    <h4>Exchange</h4>
+                    <p>
+                        Connect, schedule and exchange
+                        your skills or services.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Skill Bridge | Connect. Exchange. Grow.
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - Skill Bridge</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+    <div class="logo">
+        Skill Bridge
+    </div>
+
+    <nav class="main-nav">
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/matches">Matches</a>
+
+        <a href="/requests">Requests</a>
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+</header>
+
+
+<main class="profile-page">
+
+
+    <!-- ========================= -->
+    <!-- PROFILE HEADER -->
+    <!-- ========================= -->
+
+    <section class="profile-header-card">
+
+        <div class="profile-avatar">
+            {{ user["name"][0]|upper }}
+        </div>
+
+
+        <div class="profile-header-info">
+
+            <h1>
+                {{ user["name"] }}
+            </h1>
+
+            <p class="profile-location">
+                📍 {{ user["location"] or "Location not added" }}
+            </p>
+
+            <p class="profile-bio">
+                {{ user["bio"] or "No bio added yet." }}
+            </p>
+
+
+            {% if review_count > 0 %}
+
+                <div class="profile-rating">
+
+                    ⭐ {{ "%.1f"|format(average_rating) }} / 5
+
+                    <span>
+                        ({{ review_count }} reviews)
+                    </span>
+
+                </div>
+
+            {% else %}
+
+                <div class="profile-rating">
+                    ⭐ New Member
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- WHAT I CAN OFFER -->
+    <!-- ========================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <h2>
+                What I Can Offer
+            </h2>
+
+            <p>
+                Skills I can teach and services I can provide.
+            </p>
+
+        </div>
+
+
+        <div class="profile-card-grid">
+
+
+            <!-- TEACHING SKILLS -->
+
+            <div class="profile-info-card">
+
+                <div class="card-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Skills I Can Teach
+                </h3>
+
+
+                {% if teach_skills %}
+
+                    <div class="tag-container">
+
+                        {% for skill in teach_skills %}
+
+                            <span class="skill-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No teaching skills added.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- SERVICES -->
+
+            <div class="profile-info-card">
+
+                <div class="card-icon">
+                    🛠️
+                </div>
+
+                <h3>
+                    Services I Can Provide
+                </h3>
+
+
+                {% if provide_services %}
+
+                    <div class="tag-container">
+
+                        {% for service in provide_services %}
+
+                            <span class="service-tag">
+                                {{ service }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No services added.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- WHAT I NEED -->
+    <!-- ========================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <h2>
+                What I Need
+            </h2>
+
+            <p>
+                Skills I want to learn and services I need.
+            </p>
+
+        </div>
+
+
+        <div class="profile-card-grid">
+
+
+            <!-- LEARNING -->
+
+            <div class="profile-info-card">
+
+                <div class="card-icon">
+                    📚
+                </div>
+
+                <h3>
+                    Skills I Want to Learn
+                </h3>
+
+
+                {% if learn_skills %}
+
+                    <div class="tag-container">
+
+                        {% for skill in learn_skills %}
+
+                            <span class="need-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No learning goals added.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- NEEDED SERVICES -->
+
+            <div class="profile-info-card">
+
+                <div class="card-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Services I Need
+                </h3>
+
+
+                {% if need_services %}
+
+                    <div class="tag-container">
+
+                        {% for service in need_services %}
+
+                            <span class="need-service-tag">
+                                {{ service }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <p class="empty-text">
+                        No required services added.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- EDIT PROFILE -->
+    <!-- ========================= -->
+
+    <section class="edit-profile-section">
+
+        <div class="profile-section-heading">
+
+            <h2>
+                Update Your Profile
+            </h2>
+
+            <p>
+                Add or change your skills, services and needs.
+            </p>
+
+        </div>
+
+
+        <form method="POST">
+
+
+            <!-- TEACH -->
+
+            <div class="profile-form-section">
+
+                <h3>
+                    Skills I Can Teach
+                </h3>
+
+
+                <div class="checkbox-grid">
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="teach_skills"
+                            value="Python"
+
+                            {% if "Python" in teach_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Python
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="teach_skills"
+                            value="C"
+
+                            {% if "C" in teach_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        C
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="teach_skills"
+                            value="Java"
+
+                            {% if "Java" in teach_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Java
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="teach_skills"
+                            value="Graphic Design"
+
+                            {% if "Graphic Design" in teach_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Graphic Design
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="teach_skills"
+                            value="Calligraphy"
+
+                            {% if "Calligraphy" in teach_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Calligraphy
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROVIDE SERVICES -->
+
+            <div class="profile-form-section">
+
+                <h3>
+                    Services I Can Provide
+                </h3>
+
+
+                <div class="checkbox-grid">
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="provide_services"
+                            value="Resume Design"
+
+                            {% if "Resume Design" in provide_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Resume Design
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="provide_services"
+                            value="Poster Design"
+
+                            {% if "Poster Design" in provide_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Poster Design
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="provide_services"
+                            value="Video Editing"
+
+                            {% if "Video Editing" in provide_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Video Editing
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="provide_services"
+                            value="Content Writing"
+
+                            {% if "Content Writing" in provide_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Content Writing
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- LEARN -->
+
+            <div class="profile-form-section">
+
+                <h3>
+                    Skills I Want to Learn
+                </h3>
+
+
+                <div class="checkbox-grid">
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="learn_skills"
+                            value="Python"
+
+                            {% if "Python" in learn_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Python
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="learn_skills"
+                            value="Java"
+
+                            {% if "Java" in learn_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Java
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="learn_skills"
+                            value="Graphic Design"
+
+                            {% if "Graphic Design" in learn_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Graphic Design
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="learn_skills"
+                            value="Photography"
+
+                            {% if "Photography" in learn_skills %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Photography
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEED SERVICES -->
+
+            <div class="profile-form-section">
+
+                <h3>
+                    Services I Need
+                </h3>
+
+
+                <div class="checkbox-grid">
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="need_services"
+                            value="Resume Design"
+
+                            {% if "Resume Design" in need_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Resume Design
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="need_services"
+                            value="Poster Design"
+
+                            {% if "Poster Design" in need_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Poster Design
+
+                    </label>
+
+
+                    <label class="checkbox-option">
+
+                        <input
+                            type="checkbox"
+                            name="need_services"
+                            value="Video Editing"
+
+                            {% if "Video Editing" in need_services %}
+                                checked
+                            {% endif %}
+                        >
+
+                        Video Editing
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn save-profile-btn"
+            >
+                Save Changes
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Skill Bridge | Connect. Exchange. Grow.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
