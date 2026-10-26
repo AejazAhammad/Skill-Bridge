@@ -171,5 +171,5 @@ Skill Bridge uses MySQL with the following tables:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/shaikafifatabasum35-rgb/skill-bridge.git
+git clone https://github.com/AejazAhammad/Skill-Bridge.git
 cd skill-bridge
